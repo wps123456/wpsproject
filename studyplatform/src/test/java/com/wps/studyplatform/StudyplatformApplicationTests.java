@@ -1,10 +1,10 @@
-package com.example.wpsproject;
+package com.wps.studyplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WpsprojectApplicationTests {
+class StudyplatformApplicationTests {
 
     @Test
     void contextLoads() {
