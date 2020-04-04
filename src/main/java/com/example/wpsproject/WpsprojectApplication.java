@@ -8,6 +8,8 @@ public class WpsprojectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WpsprojectApplication.class, args);
+        System.out.print("启动成功");
+
     }
 
 }
