@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class JSON {
+public class JSON extends com.alibaba.fastjson.JSON {
     public static final String DEFAULT_FAIL="\"Parse failed\"";
     private static final ObjectMapper objectMapper=new ObjectMapper();
     private static final ObjectWriter objectWriter=objectMapper.writerWithDefaultPrettyPrinter();

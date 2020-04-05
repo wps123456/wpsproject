@@ -18,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +66,8 @@ public class LogAspect {
         if (controllerLog==null){
             return;
         }
+        //获得请求参数和对应的值
+        getParams(joinPoint);
         SystemOperLog systemOperLog=new SystemOperLog();
         //封装SystemOperLog类，记录信息到数据库
 
@@ -73,6 +78,28 @@ public class LogAspect {
         LogRecordManager.getInstance().exec(systemLogService,systemOperLog);
         } catch (Exception exp) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获得请求参数和对应的值
+     * @param joinPoint
+     */
+    private void getParams(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        // 参数名数组
+        String[] parameterNames = ((MethodSignature) signature).getParameterNames();
+        // 构造参数组集合
+        List<Object> argList = new ArrayList<>();
+        for (Object arg : joinPoint.getArgs()) {
+            // request/response无法使用toJSON
+            if (arg instanceof HttpServletRequest) {
+                argList.add("request");
+            } else if (arg instanceof HttpServletResponse) {
+                argList.add("response");
+            } else {
+                argList.add(JSON.toJSON(arg));
+            }
         }
     }
 
