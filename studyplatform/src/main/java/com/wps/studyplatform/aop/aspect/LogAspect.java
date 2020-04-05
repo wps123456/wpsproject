@@ -10,10 +10,7 @@ import com.wps.studyplatform.aop.utils.ServletUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +33,30 @@ public class LogAspect {
      */
     @Pointcut("@annotation(com.wps.studyplatform.aop.annotation.Log)")
     private void logPointCut(){
-
     }
 
     /**
-     * 前置拦截
+     * 后置拦截
      */
     @AfterReturning(pointcut="logPointCut()")
     public void doBefore(JoinPoint joinPoint) throws Exception {
-        System.out.println("自定义注解");
-        getHandleLog(joinPoint);
+        System.out.println("前置拦截");
+        getHandleLog(joinPoint,null);
     }
 
-    private void getHandleLog(JoinPoint joinPoint){
+    /**
+     * 异常拦截
+     * @param joinPoint
+     * @param e
+     */
+    @AfterThrowing(value = "logPointCut()",throwing = "e")
+    public void doAfter(JoinPoint joinPoint,Exception e){
+        getHandleLog(joinPoint,e);
+        System.out.println("异常拦截");
+    }
+
+
+    private void getHandleLog(final JoinPoint joinPoint ,final Exception e){
         try {
         //获得注解
         Log controllerLog=getAspectLog(joinPoint);
@@ -60,12 +68,10 @@ public class LogAspect {
 
         //记录设置注解上的参数
          getMethodDescription(controllerLog,systemOperLog);
-
-        systemOperLog.setOperTime(new Date());
-
+         systemOperLog.setOperTime(new Date());
         //异步线程记录日志到数据库
         LogRecordManager.getInstance().exec(systemLogService,systemOperLog);
-        } catch (Exception e) {
+        } catch (Exception exp) {
             e.printStackTrace();
         }
     }

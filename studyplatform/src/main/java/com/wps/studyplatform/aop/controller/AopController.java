@@ -18,6 +18,7 @@ public class AopController {
     @GetMapping("/sayHello")
     @Log(businessType = BusinessType.SELECT,title = "自定义注解测试")
     public String sayHello(){
+        System.out.println("sayHello");
         return "hello";
     }
 
