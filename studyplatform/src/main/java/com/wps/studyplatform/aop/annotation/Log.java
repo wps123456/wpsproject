@@ -14,7 +14,7 @@ public @interface Log {
      */
 
     /**
-     * 业务操作类型
+     * 操作类型
      */
     public BusinessType businessType() default BusinessType.OTHER;
     /**
@@ -22,7 +22,7 @@ public @interface Log {
      */
     public String title() default "";
     /**
-     * 访问终端类型
+     * 访问的终端类型
      */
     public OperatorType operatorType() default OperatorType.MOBILE;
     /**

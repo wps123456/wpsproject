@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LogRecordManager {
     private final int OPERATE_DELAY_TIME=10;
-    private ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(3,6,60, TimeUnit.SECONDS,new LinkedBlockingDeque<Runnable>(5));
+    private ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(4,7,60, TimeUnit.SECONDS,new LinkedBlockingDeque<Runnable>(5));
     private static LogRecordManager logRecordManager=null;
     public static synchronized LogRecordManager getInstance(){
         if(logRecordManager==null){

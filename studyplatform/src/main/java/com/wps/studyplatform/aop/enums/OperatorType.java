@@ -9,11 +9,11 @@ public enum OperatorType {
      */
     OTHER,
     /**
-     * 后台用户
+     * 访问后台用户
      */
     MANGE,
     /**
-     * 手机用户
+     * 使用手机用户
      */
     MOBILE
 }
