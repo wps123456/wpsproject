@@ -45,5 +45,10 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>flowable-springboot-master</module>
+        <module>studyplatform</module>
+
+    </modules>
 
 </project>

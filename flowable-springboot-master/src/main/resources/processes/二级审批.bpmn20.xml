@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.flowable.org/processdef">
+    <process id="first" name="ExpenseProcess" isExecutable="true">
+        <documentation>报销流程</documentation>
+        <startEvent id="start" name="开始"></startEvent>
+        <userTask id="fillTask" name="经理审批" flowable:assignee="${taskUser}">
+            <extensionElements>
+                <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler">
+                    <![CDATA[false]]></modeler:initiator-can-complete>
+            </extensionElements>
+        </userTask>
+        <userTask id="directorTak" name="老板审批" flowable:assignee="${taskUser}">
+            <extensionElements>
+                <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler">
+                    <![CDATA[false]]></modeler:initiator-can-complete>
+            </extensionElements>
+        </userTask>
+        <endEvent id="end" name="结束"></endEvent>
+        <sequenceFlow id="fillNotPassFlow" name="驳回" sourceRef="fillTask" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="fillPassFlow" name="通过" sourceRef="fillTask" targetRef="directorTak">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTak" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="directorPassFlow" name="通过" sourceRef="directorTak" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="flow1" sourceRef="start" targetRef="fillTask"></sequenceFlow>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_Expense">
+        <bpmndi:BPMNPlane bpmnElement="first" id="BPMNPlane_Expense">
+            <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+                <omgdc:Bounds height="30.0" width="30.0" x="90.0" y="145.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="fillTask" id="BPMNShape_fillTask">
+                <omgdc:Bounds height="80.0" width="100.0" x="375.0" y="120.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="directorTak" id="BPMNShape_directorTak">
+                <omgdc:Bounds height="80.0" width="100.0" x="550.0" y="120.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+                <omgdc:Bounds height="28.0" width="28.0" x="810.0" y="146.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="fillNotPassFlow" id="BPMNEdge_fillNotPassFlow">
+                <omgdi:waypoint x="421.0" y="120.0"></omgdi:waypoint>
+                <omgdi:waypoint x="420.0" y="95.0"></omgdi:waypoint>
+                <omgdi:waypoint x="824.0" y="95.0"></omgdi:waypoint>
+                <omgdi:waypoint x="824.0" y="146.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="fillPassFlow" id="BPMNEdge_fillPassFlow">
+                <omgdi:waypoint x="474.0" y="160.0"></omgdi:waypoint>
+                <omgdi:waypoint x="550.0" y="120.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="directorPassFlow" id="BPMNEdge_directorPassFlow">
+                <omgdi:waypoint x="570.0" y="120.0"></omgdi:waypoint>
+                <omgdi:waypoint x="810.0" y="160.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+                <omgdi:waypoint x="119.0" y="160.0"></omgdi:waypoint>
+                <omgdi:waypoint x="374.0" y="160.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="directorNotPassFlow" id="BPMNEdge_directorNotPassFlow">
+                <omgdi:waypoint x="590.0" y="300.0"></omgdi:waypoint>
+                <omgdi:waypoint x="595.0" y="260.0"></omgdi:waypoint>
+                <omgdi:waypoint x="824.0" y="260.0"></omgdi:waypoint>
+                <omgdi:waypoint x="824.0" y="146.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

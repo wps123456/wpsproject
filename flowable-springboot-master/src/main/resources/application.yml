@@ -1,0 +1,27 @@
+###################  项目启动端口  ###################
+server:
+  port: 8080
+
+###################  spring配置  ###################
+spring:
+##########################################################
+###################  开发环境的profile  ###################
+##########################################################
+  datasource:
+      url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+      username: root
+      password: 111111
+      driver-class-name: com.mysql.jdbc.Driver
+
+logging:
+  level.root: info
+  level.com.haiyang: debug
+  path: logs/
+  file: flowable-test.log
+
+
+---
+logging:
+  level.root: warn
+  path: logs/
+  file: flowable-test.log
