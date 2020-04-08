@@ -48,6 +48,7 @@
     <modules>
         <module>flowable-springboot-master</module>
         <module>studyplatform</module>
+        <module>study-es</module>
 
     </modules>
 
