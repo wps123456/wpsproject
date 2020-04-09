@@ -1,4 +1,7 @@
-package com.wps.studyplatform.designpattern.adapterpattern.classadapter;
+package com.wps.studyplatform.designpattern.adapterpattern.objectadapter;
+
+
+import org.springframework.stereotype.Service;
 
 /**
  * @Description: 登录的具体实现
