@@ -3,7 +3,9 @@ package com.wps.studyplatform.designpattern.factorypattren.factorymethod;
 import com.wps.studyplatform.designpattern.factorypattren.normfactory.Car;
 
 /**
- * 工厂方法：创建对象实例化，不再有同一个类产生，则是由不同的类（工厂）产生
+ * 工厂方法：
+ *          提供一个用于创建对象的接口(工厂接口)，让其实现类(工厂实现类)决定实例化哪一个类(产品类)，并且由该实现类创建对应类的实例。
+ *          创建对象实例化，不再有同一个类产生，则是由不同的类（工厂）产生
  * 根据上述代码可以看出，不同品牌的汽车是由不同的工厂生产的，貌似又是很完美的。
  * 优点：
  *     增加新的模块时，不需要更改之前的代码，增加新的业务即可
@@ -17,6 +19,10 @@ public class FactoryMethodTest {
         BMWFactory bmwFactory=new BMWFactory();
         Car car=bmwFactory.getCar("BMW");
         System.out.println(car.getName());
+
+        Factory factory=new BCFactory();
+        Car car1= factory.getCar("BC");
+        System.out.println(car1.getName());
 
     }
 }
