@@ -13,7 +13,8 @@ public class JDKProxySecond {
         //代理类对象
         JDKProxySecond jdkProxySecond=new JDKProxySecond();
 
-        RentalHouse rentalHouse1=(RentalHouse) Proxy.newProxyInstance(jdkProxySecond.getClass().getClassLoader(),
+        RentalHouse rentalHouse1=(RentalHouse) Proxy.newProxyInstance(
+                jdkProxySecond.getClass().getClassLoader(),
                 rentalHouse.getClass().getInterfaces(),
                 new InvocationHandler() {
                     @Override
