@@ -20,6 +20,7 @@ public class FactoryMethodTest {
         Car car=bmwFactory.getCar("BMW");
         System.out.println(car.getName());
 
+        //工厂模式的正确调用
         Factory factory=new BCFactory();
         Car car1= factory.getCar("BC");
         System.out.println(car1.getName());
