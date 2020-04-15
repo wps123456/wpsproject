@@ -56,6 +56,7 @@ public class InvokeConroller {
         }
         Field field=invokeClass.getField("name");
         field.set(person1,"修改名字");
+        field.get(person1);
 
         Field prField=invokeClass.getDeclaredField("phone");
         prField.setAccessible(true);
@@ -67,6 +68,7 @@ public class InvokeConroller {
         Person person2=(Person) constructor2.newInstance();
         Method method1=invokeClass.getMethod("setName", String.class);
         method1.invoke(person2,"反射操作");
+
 
 
 
