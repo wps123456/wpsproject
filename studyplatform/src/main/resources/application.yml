@@ -6,3 +6,22 @@ spring:
       username: root
       password: 111111
       driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: id_worker
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  mapper-locations: classpath*:mapper/**/*.xml
+token:
+  expire-time: 60
+  key: studyplatform
