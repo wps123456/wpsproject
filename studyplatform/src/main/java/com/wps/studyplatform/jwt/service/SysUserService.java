@@ -16,4 +16,6 @@ public interface SysUserService extends IService<SysUser> {
 
 
     Map<String,String> deleteUserById(String loginName, HttpServletRequest request);
+
+    Map<String,String> removeUserById(String loginName);
 }

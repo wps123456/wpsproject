@@ -11,6 +11,7 @@ import com.wps.studyplatform.jwt.mapper.SysUserRoleMapper;
 import com.wps.studyplatform.jwt.service.SysUserService;
 import com.wps.studyplatform.utils.IdWorker;
 import com.wps.studyplatform.utils.JWTUtil;
+import com.wps.studyplatform.utils.SysUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,21 +34,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     private SysUserRoleMapper sysUserRoleMapper;
     @Autowired
     private JWTUtil jwtUtil;
+    @Autowired
+    private SysUtils sysUtils;
+    @Autowired
+    private HttpServletRequest request;
     @Override
     public Map<String,String> findUserByLoginName(String loginName,String password) {
         SysUser sysUser=sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getLoginName,loginName));
         String userPassword=sysUser.getPassword();
         List<String> roles=sysUserMapper.selectRolesById(sysUser.getUserId());
+        Map<String,String> tokenMap=new HashMap<>();
         if(encoder.matches(password,userPassword)){
             //生成token
             String token=jwtUtil.createJWT(sysUser.getUserId().toString(),loginName,roles);
-            Map<String,String> tokenMap=new HashMap<>();
+
+            tokenMap.put("flag","true");
             tokenMap.put("name",loginName);
-            tokenMap.put("token",token);
-            return tokenMap;
+            tokenMap.put("token","Bearer "+token);
+
         }else {
-           throw new SysUserLoginException("密码错误");
+            tokenMap.put("flag","false");
+            tokenMap.put("name",loginName);
+            tokenMap.put("token","密码错误");
         }
+        return tokenMap;
     }
 
     @Override
@@ -109,6 +119,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         }else {
          throw new BaseException("您没有登录，请登录！");
         }
+
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, String> removeUserById(String loginName) {
+       boolean flag=sysUtils.isAdmin(request);
+        Map<String,String> resultMap=new HashMap<>();
+       if (flag){
+           SysUser sysUser=sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getLoginName,loginName));
+           if (null!=sysUser){
+               sysUserMapper.deleteById(sysUser.getUserId());
+               resultMap.put("token","用户已登录");
+               resultMap.put("loginName",sysUser.getLoginName());
+               resultMap.put("status","删除成功");
+               resultMap.put("anthor","有权限");
+           }else {
+               throw new BaseException("没有此用户信息");
+           }
+       }else {
+
+           throw new BaseException("您没有权限删除用户");
+       }
 
         return resultMap;
     }

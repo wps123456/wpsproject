@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping("/login")
     public ApiResult login(@RequestBody SysUser sysUser){
         Map<String,String> resultMap=sysUserService.findUserByLoginName(sysUser.getLoginName(),sysUser.getPassword());
-        if(null!=resultMap){
+        if(resultMap.get("flag").equals("true")){
             return ApiResult.success(ApiResultConstant.LOGIN_SUCCESS,resultMap);
         }else {
             return ApiResult.fail(ApiResultConstant.LOGIN_Fail,resultMap);
@@ -74,4 +74,17 @@ public class UserController {
             return ApiResult.fail(map);
         }
     }
+    @ApiOperation(value = "删除用户(拦截)")
+    @GetMapping("/removeUser/{loginName}")
+    public ApiResult removeUser(@PathVariable("loginName") String loginName){
+        Map<String,String> map=sysUserService.removeUserById(loginName);
+
+        if(map.get("status").equals("删除成功")){
+            return ApiResult.success(map);
+        }else {
+            return ApiResult.fail(map);
+        }
+    }
+
+
 }
