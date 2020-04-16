@@ -2,6 +2,8 @@ package com.wps.studyplatform.jwt.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wps.studyplatform.exception.base.BaseException;
+import com.wps.studyplatform.exception.system.SysUserLoginException;
 import com.wps.studyplatform.jwt.entity.SysUser;
 import com.wps.studyplatform.jwt.entity.SysUserRole;
 import com.wps.studyplatform.jwt.mapper.SysUserMapper;
@@ -10,13 +12,11 @@ import com.wps.studyplatform.jwt.service.SysUserService;
 import com.wps.studyplatform.utils.IdWorker;
 import com.wps.studyplatform.utils.JWTUtil;
 import io.jsonwebtoken.Claims;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
             tokenMap.put("token",token);
             return tokenMap;
         }else {
-            return null;
+           throw new SysUserLoginException("密码错误");
         }
     }
 
@@ -98,24 +98,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
                     resultMap.put("status","删除成功");
                     resultMap.put("anthor","有权限");
                 }else {
-                    resultMap.put("token","用户已登录");
-                    resultMap.put("loginName","没有此用户");
-                    resultMap.put("status","删除失败");
-                    resultMap.put("anthor","有权限");
+                    throw new BaseException("没有此用户信息");
                 }
 
             }else {
-                resultMap.put("token","用户已登录");
-                resultMap.put("loginName","");
-                resultMap.put("status","删除失败");
-                resultMap.put("anthor","无删除权限");
+
+                throw new BaseException("您没有权限删除用户");
             }
 
         }else {
-            resultMap.put("token","用户没有登录");
-            resultMap.put("loginName","");
-            resultMap.put("anthor","");
-            resultMap.put("status","删除失败");
+         throw new BaseException("您没有登录，请登录！");
         }
 
         return resultMap;
