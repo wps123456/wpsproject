@@ -9,11 +9,13 @@ import com.wps.studyplatform.jwt.mapper.SysUserRoleMapper;
 import com.wps.studyplatform.jwt.service.SysUserService;
 import com.wps.studyplatform.utils.IdWorker;
 import com.wps.studyplatform.utils.JWTUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +37,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     public Map<String,String> findUserByLoginName(String loginName,String password) {
         SysUser sysUser=sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getLoginName,loginName));
         String userPassword=sysUser.getPassword();
-        List<String> roles=sysUserMapper.selectRolesById(sysUser.getId());
+        List<String> roles=sysUserMapper.selectRolesById(sysUser.getUserId());
         if(encoder.matches(password,userPassword)){
             //生成token
-            String token=jwtUtil.createJWT(sysUser.getId().toString(),loginName,roles);
+            String token=jwtUtil.createJWT(sysUser.getUserId().toString(),loginName,roles);
             Map<String,String> tokenMap=new HashMap<>();
             tokenMap.put("name",loginName);
             tokenMap.put("token",token);
@@ -57,7 +59,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         }else {
             String password=encoder.encode(sysUser.getPassword());
             sysUser.setPassword(password);
-            sysUser.setId(idWorker.nextId());
+            sysUser.setUserId(idWorker.nextId());
             sysUserMapper.insert(sysUser);
             return true;
         }
@@ -69,7 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
         SysUser sysUser=sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getLoginName,loginName));
         int number=0;
         for (Long role:roles){
-            number=sysUserRoleMapper.insert(new SysUserRole(sysUser.getId(),role));
+            number=sysUserRoleMapper.insert(new SysUserRole(sysUser.getUserId(),role));
             number++;
         }
         if(number==roles.size()){
@@ -80,4 +82,42 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper,SysUser> imple
     }
 
 
+    @Override
+    public Map<String, String> deleteUserById(String loginName, HttpServletRequest request) {
+        String token=request.getHeader("Authorization");
+        Map<String,String> resultMap=new HashMap<>();
+        if(null!=token){
+            Claims claims=jwtUtil.parseJWT(token);
+            List<String> roles=(List<String>) claims.get("roles");
+            if (roles.contains("admin")){
+                SysUser sysUser=sysUserMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getLoginName,loginName));
+                if (null!=sysUser){
+                    sysUserMapper.deleteById(sysUser.getUserId());
+                    resultMap.put("token","用户已登录");
+                    resultMap.put("loginName",sysUser.getLoginName());
+                    resultMap.put("status","删除成功");
+                    resultMap.put("anthor","有权限");
+                }else {
+                    resultMap.put("token","用户已登录");
+                    resultMap.put("loginName","没有此用户");
+                    resultMap.put("status","删除失败");
+                    resultMap.put("anthor","有权限");
+                }
+
+            }else {
+                resultMap.put("token","用户已登录");
+                resultMap.put("loginName","");
+                resultMap.put("status","删除失败");
+                resultMap.put("anthor","无删除权限");
+            }
+
+        }else {
+            resultMap.put("token","用户没有登录");
+            resultMap.put("loginName","");
+            resultMap.put("anthor","");
+            resultMap.put("status","删除失败");
+        }
+
+        return resultMap;
+    }
 }

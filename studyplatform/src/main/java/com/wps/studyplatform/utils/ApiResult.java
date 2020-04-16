@@ -19,11 +19,17 @@ public class ApiResult<T> implements Serializable {
         return new ApiResult<T>(ApiResultConstant.SUCCESS_CODE,message,data);
     }
 
+    public  static <T>ApiResult<T> success(T data){
+        return new ApiResult<T>(ApiResultConstant.SUCCESS_CODE,ApiResultConstant.OPERATION_SUCCESS,data);
+    }
     /**
      * Fail
      */
     public static <T> ApiResult<T> fail(String message,T data){
         return new ApiResult<T>(ApiResultConstant.Fail_CODE,message,data);
+    }
+    public  static <T>ApiResult<T> fail(T data){
+        return new ApiResult<T>(ApiResultConstant.Fail_CODE,ApiResultConstant.OPERATION_FAIL,data);
     }
 
     public ApiResult() {

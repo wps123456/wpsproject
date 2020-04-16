@@ -45,7 +45,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private List<ApiKey> security() {
         return newArrayList(
-               new ApiKey("access_token","access_token","header")
+               new ApiKey("Authorization","Authorization","header")
         );
     }
 

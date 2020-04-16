@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("sys_user")
 public class SysUser {
     @TableId("user_id")
-    private Long id;
+    private Long userId;
 
     @TableField("login_name")
     private String loginName;
@@ -24,12 +24,12 @@ public class SysUser {
     @TableField("status")
     private String status;
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getLoginName() {

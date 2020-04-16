@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,9 @@ public class UserController {
 
     @Autowired
     private SysUserService sysUserService;
+
     @Autowired
-    private IdWorker idWorker;
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private HttpServletRequest request;
 
 
 
@@ -53,13 +53,25 @@ public class UserController {
 
     @ApiOperation(value = "登录用户")
     @PostMapping("/login")
-    public ApiResult login(@RequestBody Map<String,String> param){
-        Map<String,String> resultMap=sysUserService.findUserByLoginName(param.get("loginName"),param.get("password"));
+    public ApiResult login(@RequestBody SysUser sysUser){
+        Map<String,String> resultMap=sysUserService.findUserByLoginName(sysUser.getLoginName(),sysUser.getPassword());
         if(null!=resultMap){
             return ApiResult.success(ApiResultConstant.LOGIN_SUCCESS,resultMap);
         }else {
             return ApiResult.fail(ApiResultConstant.LOGIN_Fail,resultMap);
         }
 
+    }
+
+    @ApiOperation(value = "删除用户")
+    @GetMapping("/deleteUser/{loginName}")
+    public ApiResult deleteUser(@PathVariable("loginName") String loginName){
+        Map<String,String> map=sysUserService.deleteUserById(loginName,request);
+
+        if(map.get("status").equals("删除成功")){
+            return ApiResult.success(map);
+        }else {
+            return ApiResult.fail(map);
+        }
     }
 }
