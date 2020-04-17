@@ -9,13 +9,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
 @Api(value = "用户管理",tags = {"用户管理"})
-@RequestMapping("/sysUser")
+/*@RequestMapping("/sysUser")*/
 @RestController
 public class UserController {
 
@@ -63,12 +64,13 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @GetMapping("/deleteUser/{loginName}")
     public ApiResult deleteUser(@PathVariable("loginName") String loginName){
-        Map<String,String> map=sysUserService.deleteUserById(loginName,request);
 
-        if(map.get("status").equals("删除成功")){
-            return ApiResult.success(map);
+
+        boolean flag=true;
+        if(flag){
+            return ApiResult.success(flag);
         }else {
-            return ApiResult.fail(map);
+            return ApiResult.fail(flag);
         }
     }
     @ApiOperation(value = "删除用户(拦截)")
@@ -81,6 +83,22 @@ public class UserController {
         }else {
             return ApiResult.fail(map);
         }
+    }
+    @GetMapping("/index")
+    @ResponseBody
+    public String index() {
+        return "Hello World ~";
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView showLogin() {
+        return new ModelAndView("login.html");
+    }
+
+    @GetMapping("/home")
+    @ResponseBody
+    public String home() {
+        return "欢迎来到主页 ~";
     }
 
 
