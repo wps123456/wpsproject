@@ -8,10 +8,10 @@
         <version>2.2.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>wpsproject</artifactId>
+    <groupId>com.wps</groupId>
+    <artifactId>spring-security</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>wpsproject</name>
+    <name>spring-security</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -22,6 +22,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+      <!-- spring security依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring‐boot‐starter‐security</artifactId>
         </dependency>
 
         <dependency>
@@ -45,12 +50,5 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>flowable-springboot-master</module>
-        <module>studyplatform</module>
-        <module>study-es</module>
-        <module>spring-security</module>
-
-    </modules>
 
 </project>
