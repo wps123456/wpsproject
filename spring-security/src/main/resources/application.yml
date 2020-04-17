@@ -1,0 +1,24 @@
+server:
+  port: 8011
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/studyplatform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+      username: root
+      password: 111111
+      driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: id_worker
+      field-strategy: not_empty
+      #ÍÕ·åÏÂ»®Ïß×ª»»
+      column-underline: true
+      #Âß¼­É¾³ýÅäÖÃ
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  mapper-locations: classpath*:mapper/**/*.xml
