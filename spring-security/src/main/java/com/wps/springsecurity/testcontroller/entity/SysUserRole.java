@@ -1,10 +1,12 @@
-package com.wps.springsecurity.security.entity;
+package com.wps.springsecurity.testcontroller.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.io.Serializable;
+
 @TableName("sys_user_role")
-public class SysUserRole {
+public class SysUserRole implements Serializable {
     @TableField("user_id")
     private Long userId;
 

@@ -1,11 +1,14 @@
-package com.wps.springsecurity.security.entity;
+package com.wps.springsecurity.testcontroller.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.io.Serializable;
+import java.util.List;
+
 @TableName("sys_user")
-public class SysUser {
+public class SysUser implements Serializable {
     @TableId("user_id")
     private Long userId;
 
@@ -23,6 +26,17 @@ public class SysUser {
 
     @TableField("status")
     private String status;
+    /** 角色对象 */
+    @TableField(exist = false)
+    private List<SysRole> roles;
+
+    public List<SysRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SysRole> roles) {
+        this.roles = roles;
+    }
 
     public Long getUserId() {
         return userId;

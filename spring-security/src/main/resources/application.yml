@@ -15,9 +15,9 @@ mybatis-plus:
     db-config:
       id-type: id_worker
       field-strategy: not_empty
-      #ÍÕ·åÏÂ»®Ïß×ª»»
+      #???????????
       column-underline: true
-      #Âß¼­É¾³ýÅäÖÃ
+      #??????????
       logic-delete-value: 0
       logic-not-delete-value: 1
       db-type: mysql
@@ -26,3 +26,12 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
   mapper-locations: classpath*:mapper/**/*.xml
+token:
+    # ???????
+    header: Authorization
+    # ????
+    secret: abcdefghijklmnopqrstuvwxyz
+    # ????????30???
+    expireTime: 30
+    expire-time: 600
+    key: studyplatform
