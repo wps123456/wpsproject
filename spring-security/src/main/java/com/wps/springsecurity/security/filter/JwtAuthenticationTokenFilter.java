@@ -43,6 +43,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (null!=loginUser)
         {
+            //刷新token的过期时间
+            tokenService.verifyToken(loginUser);
             Collection<? extends GrantedAuthority> authorities=loginUser.getAuthorities();
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, authorities);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

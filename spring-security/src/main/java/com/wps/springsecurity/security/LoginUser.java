@@ -19,18 +19,34 @@ import java.util.stream.Collectors;
  * @Date 2020/4/2214:55
  */
 public class LoginUser  implements UserDetails {
-    private SysUser user;
+
+    /**
+     * redis中存放LoginUser对应的userKey值
+     */
+    private String UUID;
+
+    private SysUser sysUser;
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
     /**
      * 权限列表
+
      */
     private Set<String> permissions;
 
     public SysUser getSysUser() {
-        return user;
+        return sysUser;
     }
 
     public void setSysUser(SysUser sysUser) {
-        this.user = sysUser;
+        this.sysUser = sysUser;
     }
 
     public Set<String> getPermissions() {
@@ -45,11 +61,11 @@ public class LoginUser  implements UserDetails {
     }
 
     public LoginUser(SysUser user) {
-        this.user = user;
+        this.sysUser = user;
     }
 
     public LoginUser(SysUser user, Set<String> permissions) {
-        this.user = user;
+        this.sysUser = user;
         this.permissions = permissions;
     }
 
@@ -71,9 +87,9 @@ public class LoginUser  implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        if(null!=user){
+        if(null!=sysUser){
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            List<SysRole>sysRoles=user.getRoles();
+            List<SysRole>sysRoles=sysUser.getRoles();
             List<String> roles=sysRoles.stream().map(sysRole -> sysRole.getRoleKey()).collect(Collectors.toList());
             for(String role : roles) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(role));
@@ -86,12 +102,12 @@ public class LoginUser  implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return sysUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getLoginName();
+        return sysUser.getLoginName();
     }
 
     @Override
