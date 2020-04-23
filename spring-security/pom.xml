@@ -233,6 +233,18 @@
             <artifactId>jna-platform</artifactId>
         </dependency>
 
+        <!-- redis 缓存操作 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--reids启动后报错org.apache.commons.pool2.impl.GenericObjectPoolConfig，添加pool依赖-->
+        <!--  pool 对象池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

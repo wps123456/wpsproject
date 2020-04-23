@@ -27,7 +27,7 @@ public class SystemLoginController {
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
     public ApiResult login(@RequestBody Map<String,String>param){
-        String token=sysLoginService.login(param.get("userName"),param.get("password"));
+        String token=sysLoginService.login(param.get("userName"),param.get("password"),param.get("code"),param.get("uuid"));
         return ApiResult.success(token);
     }
     @PostMapping("/admin")

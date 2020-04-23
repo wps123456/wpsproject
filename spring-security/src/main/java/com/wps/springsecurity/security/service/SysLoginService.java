@@ -7,6 +7,9 @@ package com.wps.springsecurity.security.service;
  * @Date 2020/4/2215:57
  */
 
+import com.wps.springsecurity.constant.SecurityConstant;
+import com.wps.springsecurity.exception.SystemLoginException.SystemLoginException;
+import com.wps.springsecurity.redis.RedisCache;
 import com.wps.springsecurity.security.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +34,9 @@ public class SysLoginService
     @Resource
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private RedisCache redisCache;
+
     /**
      * 登录验证
      *
@@ -40,8 +46,24 @@ public class SysLoginService
      * @param uuid 唯一标识
      * @return 结果
      */
-    public String login(String username, String password)
+    public String login(String username, String password,String code,String uuid)
     {
+        String verifyKey=SecurityConstant.CAPTCHA_CODE_KEY+uuid;
+        String cacheCode=redisCache.getCacheObject(verifyKey);
+        redisCache.deleteObject(verifyKey);
+        if (null==cacheCode){
+            throw new SystemLoginException("验证码已过期，请重新获取验证码");
+        }
+        if (null==code){
+            throw new SystemLoginException("请输入验证码");
+        }
+        //忽略大小写比较
+        if(!code.equalsIgnoreCase(cacheCode)){
+            throw new SystemLoginException("验证码输入错误");
+        }
+
+
+
         // 用户验证
         Authentication authentication = null;
         try
