@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -43,5 +44,19 @@ public class SystemLoginController {
     public ApiResult remove(@RequestBody Map<String,String> param){
 
         return ApiResult.success("system有访问权限");
+    }
+
+    @PostMapping("/customAdmin")
+    @PreAuthorize("@ss.hasRole('admin')")
+    @ApiOperation(value = "自定义权限认证，拥有admin角色的访问")
+    public ApiResult customAdmin(@RequestBody Map<String,String> param){
+        return ApiResult.success("admin角色可以访问");
+    }
+
+    @PostMapping("/customSystem")
+    @PreAuthorize("@ss.hasRole('system')")
+    @ApiOperation(value = "自定义权限认证，拥有system角色的访问")
+    public ApiResult customSystem(@RequestBody Map<String,String> param){
+        return ApiResult.success("system角色可以访问");
     }
 }

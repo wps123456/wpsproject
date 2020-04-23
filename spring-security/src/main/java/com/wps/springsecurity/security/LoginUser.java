@@ -53,6 +53,21 @@ public class LoginUser  implements UserDetails {
         this.permissions = permissions;
     }
 
+    /**
+     * 使用自定义注解实现权限的判断时@PreAuthorize("@ss.hasRole('admin')"),此处的返回值设置为null
+     * 返回grantedAuthorities时，是使用spring security自身的注解@PreAuthorize("hasRole('admin')")，
+     *     其中user的密码和名称需要返回spring security内部的UserDetails中
+     *     @Override
+     *     public String getPassword() {
+     *         return user.getPassword();
+     *     }
+     *     @Override
+     *     public String getUsername() {
+     *         return user.getLoginName();
+     *     }
+     */
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
