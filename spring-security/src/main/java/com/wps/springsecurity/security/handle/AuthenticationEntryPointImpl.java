@@ -18,6 +18,7 @@ import java.io.Serializable;
 /**
  * @Title AuthenticationEntryPointImpl
  * @Description 认证失败处理类 返回未授权
+ *                用户处于无登录状态或token过期时，访问资源时会提示此异常。
  * @auther wps
  * @Date 2020/4/249:50
  */
