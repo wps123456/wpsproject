@@ -28,6 +28,10 @@ public class ApiResult<T> implements Serializable {
     public static <T> ApiResult<T> fail(String message,T data){
         return new ApiResult<T>(ApiResultConstant.Fail_CODE,message,data);
     }
+
+    public static <T>ApiResult<T>fail(String code,String message){
+        return new ApiResult<T>(code,message,null);
+    }
     public  static <T>ApiResult<T> fail(T data){
         return new ApiResult<T>(ApiResultConstant.Fail_CODE,ApiResultConstant.OPERATION_FAIL,data);
     }

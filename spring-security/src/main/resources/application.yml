@@ -54,6 +54,5 @@ token:
     # ????
     secret: abcdefghijklmnopqrstuvwxyz
     # ????????30???
-    expireTime: 30
-    expire-time: 600
+    expire-time: 30
     key: studyplatform

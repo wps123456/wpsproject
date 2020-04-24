@@ -75,7 +75,7 @@ public class TokenService
 
             //方案二：
             String uuid=(String)claims.get("uuid");
-            String userKey=SecurityConstant.LOGIN_USER_KEY+uuid;
+            String userKey=SecurityConstant.LOGIN_TOKEN_KEY+uuid;
             LoginUser loginUser=new LoginUser();
             loginUser=redisCache.getCacheObject(userKey);
             return loginUser;
@@ -98,7 +98,7 @@ public class TokenService
     {
         //将用户信息保存到redis中，claims中存放用户信息对应的key值。
         String uuid=IdUtils.simpleUUID();
-        String userKey=SecurityConstant.LOGIN_USER_KEY+uuid;
+        String userKey=SecurityConstant.LOGIN_TOKEN_KEY+uuid;
         loginUser.setUUID(uuid);
         redisCache.setCacheObject(userKey,loginUser,expire,TimeUnit.MINUTES);
 
@@ -161,8 +161,13 @@ public class TokenService
      */
     public void verifyToken(LoginUser loginUser) {
         String uuid=loginUser.getUUID();
-        String userKey=SecurityConstant.LOGIN_USER_KEY+uuid;
+        String userKey=SecurityConstant.LOGIN_TOKEN_KEY+uuid;
         redisCache.setCacheObject(userKey,loginUser,expire,TimeUnit.MINUTES);
+    }
+
+    public void delLoginUser(String uuid) {
+        String userKey=SecurityConstant.LOGIN_TOKEN_KEY+uuid;
+        redisCache.deleteObject(userKey);
     }
 }
 

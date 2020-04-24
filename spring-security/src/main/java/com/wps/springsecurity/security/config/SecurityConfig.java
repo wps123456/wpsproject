@@ -8,6 +8,8 @@ package com.wps.springsecurity.security.config;
  */
 
 import com.wps.springsecurity.security.filter.JwtAuthenticationTokenFilter;
+import com.wps.springsecurity.security.handle.AuthenticationEntryPointImpl;
+import com.wps.springsecurity.security.handle.LogoutSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -36,10 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private UserDetailsService userDetailsService;
 
     /**
+     * 认证失败处理类
+     */
+    @Autowired
+    private AuthenticationEntryPointImpl unauthorizedHandler;
+    /**
      * token认证过滤器
      */
     @Autowired
     private JwtAuthenticationTokenFilter authenticationTokenFilter;
+    /**
+     * 退出处理类
+     */
+    @Autowired
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
 
     /**
      * 解决 无法直接注入 AuthenticationManager
@@ -77,6 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .csrf().disable()
                 //开启跨域支持
                 .cors().and()
+                // 认证失败处理类
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
@@ -102,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
+        httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

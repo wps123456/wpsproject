@@ -9,6 +9,8 @@ package com.wps.springsecurity.security.service;
 
 import com.wps.springsecurity.constant.SecurityConstant;
 import com.wps.springsecurity.exception.SystemLoginException.SystemLoginException;
+import com.wps.springsecurity.exception.SystemLoginException.UserPasswordNotMatchException;
+import com.wps.springsecurity.exception.base.BaseException;
 import com.wps.springsecurity.redis.RedisCache;
 import com.wps.springsecurity.security.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,15 @@ public class SysLoginService
         }
         catch (Exception e)
         {
+            if (e instanceof BadCredentialsException)
+            {
+                throw new UserPasswordNotMatchException("用户名或密码错误");
+            }
+            else
+            {
+
+                throw new BaseException(e.getMessage());
+            }
 
         }
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
