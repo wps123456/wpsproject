@@ -15,11 +15,13 @@ import com.wps.springsecurity.testcontroller.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,4 +58,26 @@ public class UserDetailsServiceImpl implements UserDetailsService
         loginUser.setPermissions(roles);
         return loginUser;
     }
+    /**
+     * 使用spring security自身的授权注解注解 hasAuthority('admin')
+     */
+
+/*    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //登录账号
+        System.out.println("username="+username);
+    //根据账号去数据库查询...
+        SysUser user =sysUserMapper.selectUserByName(username);
+        if(user == null){
+            return null;
+        }
+//查询用户权限
+        Set<String> roles= permissionService.getRolePermission(user);
+        String[] perarray = new String[roles.size()];
+        roles.toArray(perarray);
+//创建userDetails
+        UserDetails userDetails =
+                User.withUsername(user.getLoginName()).authorities(perarray).build();
+        return userDetails;
+    }*/
 }
