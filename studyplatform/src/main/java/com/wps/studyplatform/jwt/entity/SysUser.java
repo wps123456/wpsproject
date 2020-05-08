@@ -71,4 +71,21 @@ public class SysUser {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public SysUser(Long userId, String loginName, String password, String sex, String phone, String status) {
+        this.userId = userId;
+        this.loginName = loginName;
+        this.password = password;
+        this.sex = sex;
+        this.phone = phone;
+        this.status = status;
+    }
+
+    public SysUser(Long userId, String loginName) {
+        this.userId = userId;
+        this.loginName = loginName;
+    }
+
+    public SysUser() {
+    }
 }
