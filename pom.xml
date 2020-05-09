@@ -50,6 +50,7 @@
         <module>studyplatform</module>
         <module>study-es</module>
         <module>spring-security</module>
+        <module>spring-security-oauth2</module>
 
     </modules>
 
