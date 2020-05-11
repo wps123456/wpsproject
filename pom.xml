@@ -51,6 +51,7 @@
         <module>study-es</module>
         <module>spring-security</module>
         <module>spring-security-oauth2</module>
+        <module>springmvc_day01_01_start</module>
 
     </modules>
 
