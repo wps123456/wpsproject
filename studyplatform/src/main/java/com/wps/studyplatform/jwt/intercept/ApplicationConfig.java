@@ -1,5 +1,6 @@
 package com.wps.studyplatform.jwt.intercept;
 
+import com.wps.studyplatform.interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,6 +20,8 @@ import java.util.List;
 public class ApplicationConfig extends WebMvcConfigurationSupport {
     @Autowired
     private JWTIntercept jwtIntercept;
+    @Autowired
+    private HttpInterceptor httpInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -29,6 +32,9 @@ public class ApplicationConfig extends WebMvcConfigurationSupport {
         excludePath.add("/v2/**");
         excludePath.add("/webjars/**");
         registry.addInterceptor(jwtIntercept)
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePath);
+        registry.addInterceptor(httpInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePath);
 

@@ -57,3 +57,5 @@ mybatis-plus:
 token:
   expire-time: 600
   key: studyplatform
+pass:
+  value: false
