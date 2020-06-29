@@ -1,8 +1,10 @@
 package com.wps.studyplatform.httpResponse.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wps.studyplatform.httpResponse.exception.licenseException.LicenseException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -28,6 +30,12 @@ public class CheckLicenseAspect {
     public void LicensePointCut(){
 
     }
+
+    /**
+     * 前置拦截
+     * @param joinPoint
+     */
+    @Before("LicensePointCut()")
     public void doBefore(JoinPoint joinPoint){
         HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String url="";
@@ -39,8 +47,9 @@ public class CheckLicenseAspect {
         Map<String, List> LicensesMap=responseEntity.getBody();
         List<Map<String,Object>> LicensesList=LicensesMap.get("Licenses");
         List<Map<String,Object>> sqlServerLicense=LicensesList.stream().filter(LicenseFeture->LicenseFeture.get("feature").equals("sql")).collect(Collectors.toList());
-
-
+        if(sqlServerLicense.size()==0){
+            throw new LicenseException("200","未授权","错误信息");
+        }
     }
 
 }
