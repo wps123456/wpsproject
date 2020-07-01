@@ -62,6 +62,8 @@ RBAC基于资源的访问控制（Resource-Based Access Control）是按资源�
 七：zookeeper、kafka在windows下启动方式
 Zookeeper：安装目录下：cmd下：zkServer
 Kafka：安装目录下：cmd下：.\bin\windows\kafka-server-start.bat .\config\server.properties
+八：异步Async
+
 
 
 
