@@ -2,7 +2,7 @@ package com.wps.studyplatform.sqlcollect.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wps.studyplatform.jwt.entity.SysRole;
+import com.wps.studyplatform.sqlcollect.entity.SysRole;
 import com.wps.studyplatform.utils.PageUtils;
 import org.springframework.stereotype.Service;
 
