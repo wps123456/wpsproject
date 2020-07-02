@@ -4,6 +4,7 @@ package com.wps.studyplatform.sqlcollect.config;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wps.studyplatform.exception.base.BaseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  * @auther wps
  * @Date 2020/7/119:50
  */
+@Configuration
 public class PageController<T> extends LinkedHashMap<String,Object> {
     private static final long serialVersionUID=1L;
     private Page<T> page;
@@ -60,5 +62,29 @@ public class PageController<T> extends LinkedHashMap<String,Object> {
 
 
 
+    }
+
+    public Page<T> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<T> page) {
+        this.page = page;
+    }
+
+    public long getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(long currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public long getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(long pageSize) {
+        this.pageSize = pageSize;
     }
 }

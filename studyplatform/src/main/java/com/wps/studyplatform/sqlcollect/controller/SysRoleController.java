@@ -1,5 +1,7 @@
 package com.wps.studyplatform.sqlcollect.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wps.studyplatform.sqlcollect.config.PageController;
 import com.wps.studyplatform.sqlcollect.service.SysRoleService;
 import com.wps.studyplatform.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/role")
-public class SysRoleController {
+public class SysRoleController extends PageController {
 
     @Autowired
     private SysRoleService sysRoleService;
@@ -26,6 +28,8 @@ public class SysRoleController {
     @PostMapping("list")
     public PageUtils list(@RequestBody Map<String, Object> params){
 
+
+        return sysRoleService.queryRoleList(Query(params),params);
 
 
     }
