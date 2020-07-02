@@ -30,6 +30,25 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         return sb.toString();
     }
     private static Pattern humpPattern=Pattern.compile("_(\\W)");
+    /**
+     * 驼峰赚下划线（简单写法）效率低
+     *
+     */
+    public static String humToLine(String str){
+        return str.replaceAll("[A-Z]","_$0").toLowerCase();
+    }
+    /**
+     * 驼峰转下划线，效率高
+     */
+    public static String humToLine2(String str){
+        Matcher matcher =humpPattern.matcher(str);
+        StringBuffer sb =new StringBuffer();
+        while (matcher.find()){
+            matcher.appendReplacement(sb,"_"+matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
 
     /** 空字符串 */
     private static final String NULLSTR = "";

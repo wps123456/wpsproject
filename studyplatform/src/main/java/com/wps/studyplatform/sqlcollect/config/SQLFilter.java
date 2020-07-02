@@ -8,6 +8,7 @@ package com.wps.studyplatform.sqlcollect.config;
  */
 
 import com.wps.studyplatform.exception.base.BaseException;
+import com.wps.studyplatform.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -35,6 +36,6 @@ public class SQLFilter {
             }
         }
 
-        return StringUtils.hump
+        return StringUtil.humToLine2(retStr);
     }
 }

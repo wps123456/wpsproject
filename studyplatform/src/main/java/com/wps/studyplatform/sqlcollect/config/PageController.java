@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Title PageController
@@ -39,9 +40,23 @@ public class PageController<T> extends LinkedHashMap<String,Object> {
             //size小于0不在查询total及分页，自动调整为列表模式
             page.setSize(-1);
         }
-        if (params.get("orderAsc")!=null){
-            List ascOrdes= (List) params.get("orderAsc");
+        try {
+
+
+            if (params.get("orderAsc") != null) {
+                List ascOrdes = (List) params.get("orderAsc");
+                ascOrdes = (List) ascOrdes.stream().map((i) -> SQLFilter.sqlInject(String.valueOf(i))).collect(Collectors.toList());
+                page.setAscs(ascOrdes);
+            }
+            if (params.get("orderDesc") != null) {
+                List descOrdes = (List) params.get("orderDesc");
+                descOrdes = (List) descOrdes.stream().map((i) -> SQLFilter.sqlInject(String.valueOf(i))).collect(Collectors.toList());
+                page.setAscs(descOrdes);
+            }
+        }catch (Exception ignored){
+            ignored.printStackTrace();
         }
+        return this.page;
 
 
 
