@@ -6,8 +6,12 @@ import com.wps.studyplatform.sqlcollect.entity.SysRole;
 import com.wps.studyplatform.sqlcollect.mapper.SysRoleMapper;
 import com.wps.studyplatform.sqlcollect.service.SysRoleService;
 import com.wps.studyplatform.utils.PageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,9 +22,20 @@ import java.util.Map;
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> implements SysRoleService {
+
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
     @Override
     public PageUtils queryRoleList(Page page, Map<String, Object> params) {
         baseMapper.queryRoleList(page,params);
+
+        List<Long> wanIds=new ArrayList<>();
+        Map<String ,Object> params1=new HashMap<>();
+        params1.put("wanIds",wanIds);
+        params1.put("warnStatus",1);
+
+        sysRoleMapper.batchUpdate(params1);
+
         return null;
     }
 }

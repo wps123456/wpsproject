@@ -13,19 +13,163 @@
         <result property="delFlag" column="del_flag"/>
 
 
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+
+
         <collection property="menuIds" column="{roleId=role_id}" ofType="long" javaType="list" select="queryMenuByRoleId">
             <result column="menu_id" javaType="long"/>
         </collection>
 
+        <collection property="deptIds" column="{roleId=role_id}" ofType="long" javaType="list" select="queryDeptByRoleId">
+            <result column="dept_id" javaType="long"/>
+        </collection>
+        <collection property="optNodeIds" column="{roleId=role_id}" ofType="string" javaType="list" select="queryNodeByRoleId">
+            <result column="node_id" javaType="long"/>
+        </collection>
+        <collection property="optDataAuthIds" column="{roleId=role_id}" ofType="string" javaType="list" select="queryDataAuthByRoleId">
+            <result column="data_auth_id" javaType="long"/>
+        </collection>
+        <collection property="appDetails" column="{roleId=role_id}" ofType="com.wps.studyplatform.sqlcollect.entity.ReqAppRoleDetail" javaType="list" select="queryAppByRoleId">
+            <result column="app_id" property="appId"/>
+            <result column="app_status" property="appStatus"/>
+        </collection>
+
 
     </resultMap>
-    <select id="queryMenuByRoleId" resultType="long" >
-        select dept_id from sys_role_dept where role_id=#{roleId}
+    <select id="queryAppByRoleId" resultType="com.wps.studyplatform.sqlcollect.entity.ReqAppRoleDetail" >
+        select app_id ,app_status from app_role_relation where role_id=#{roleId}
     </select>
+    <select id="queryNodeByRoleId" resultType="string">
+        select node_id from opt_tree_role where role_id=#{roleId}
+    </select>
+    <select id="queryDataAuthByRoleId" resultType="string">
+        select data_auth_id from opt_tree_data_auth_role where role_id=#{roleId}
+    </select>
+    <select id="queryMenuByRoleId" resultType="long">
+        select menu_id from sys_role_menu where role_id={roleId}
+    </select>
+    <select id="queryDeptByRoleId" resultType="long">
+        select dept_id from sys_role_dept where role_id={roleId}
+    </select>
+
 
     <select id="queryRoleList"parameterType="map" resultMap="queryRoleList">
 
+        select sr.*from sys_role sr
+        <where>
+            <if test="param2.roleName!=null and param2.roleName!=''">
+                AND sr.role_name like (CONCAT('%\\',#{param2.roleName},'%'))
+            </if>
+            <if test="param2.status!=null and params2.status!=''">
+                AND st.status=#{param2.status}
+            </if>
+            <if test="param2.delFlag!=null and param2.delFlag!=''">
+                AND sr.del_flag !=#{param2.delFlag}
+            </if>
+            <if test="param2.roleTypes!=null and param2.roleTypes!=''">
+                AND sr.role_type in
+                <foreach collection="param2.roleTypes" item="item" open="(" close=")" index="index" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="param2.roleType !=null and param2.roleType !=''">
+                AND sr.role_type !=#{param2.roleType}
+            </if>
+            <if test="param2.includes !=null and param2.includes !=''">
+                AND sr.role_type in
+                <foreach collection="param2.includes" item="item" open="(" close=")" index="index" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="param2.unIncludes !=null and param2.unIncludes !=''">
+                AND sr.role_type not in
+                <foreach collection="param2.unIncludes" item="item" open="(" close=")" index="index" separator=",">
+                    #{item}
+                </foreach>
+            </if>
 
+        </where>
 
     </select>
+
+    <resultMap id="queryUserPosition" type="com.wps.studyplatform.sqlcollect.entity.UserPositionBean">
+
+        <result property="postId" column="post_id"/>
+        <result property="postName" column="post_name"/>
+    </resultMap>
+    <select id="queryPositionByUserId"  parameterType="long" resultMap="queryUserPosition">
+
+        select sup.post_id ( select  post_name from sys_post sp where sp.post_id=sup.post_id) as post_name
+        from  sys_user_post sup
+        where sup.user_id=#{userId}
+
+    </select>
+    <select id="queryPermsByUserId" parameterType="Long" resultType="String">
+        select  distinct f.func_perm from sys_func f
+        left join sys_menu_func mf on f.func_id=mf_func_id
+        left join sys_menu m on m.menu_id=mf.menu_id
+
+        <where>
+            <if test="userId!=null and userId!=''">
+                AND ur.user_id=#{userId}
+            </if>
+            <if test="delFlag!=null and delFlag!=''">
+                AND sr.delFlag=#{delFlag}
+            </if>
+            <if test="status!=null and status !=''">
+              AND st.status=#{status}
+           </if>
+
+        </where>
+    </select>
+    <resultMap id="resultMap" type="com.wps.studyplatform.sqlcollect.entity.RespSmartAppApply">
+
+        <result property="applyLoginName" column="app_login_name"/>
+        <result property="applyUserName" column="app_user_name"/>
+
+        <result property="appName" column="app_name"/>
+        <result property="id" column="id"/>
+    </resultMap>
+
+
+
+    <select id="myApply" resultMap="resultMap">
+        select apply.*,su.user_name AS apply_user_name,su.login_name As apply_login_nam
+        from smart_app_apply apply
+        left join sys_user su on su.user_id=apply.apply_person
+        <where>
+            apply.apply_person =#{param2.userId}
+            <if test="param2.appName !=null and param2.appName!=''">
+
+                And apply.app_name like CONCAT('%',#{param2.appName},''%)
+            </if>
+            <if test="param2.startTime!=null and param2.startTime!=''">
+                And apply.apply_time <![CDATA[>=]]> #{param2.startTime}
+            </if>
+            <if test="param2.endTime1=null and param2.endTime!=''">
+                and apply.apply_time <![CDATA[<=]]> #{param2.endTime}
+            </if>
+        </where>
+
+    </select>
+
+    <update id="batchUpdate">
+        update plat_warn_receive
+        set warn_status=#{params.warnStatus}
+        where
+        user_id=#{params.userId}
+        And warn in
+        (''
+          <foreach collection="params.wanIds" item="item" open="," index="index" separator=",">
+              #{item}
+          </foreach>
+
+        )
+
+    </update>
+
 </mapper>

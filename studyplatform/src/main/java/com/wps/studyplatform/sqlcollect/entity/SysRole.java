@@ -18,7 +18,7 @@ import java.util.List;
  * @Date 2020/7/220:11
  */
 @TableName("sys_role")
-public class SysRole {
+public class SysRole  extends BaseEntity{
     private static final long serialVersionUID=1L;
     /**
      * 角色ID
