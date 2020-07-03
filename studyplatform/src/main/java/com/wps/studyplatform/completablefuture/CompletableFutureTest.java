@@ -21,7 +21,10 @@ public class CompletableFutureTest {
        // thenApply();
       //  handle();
         //handleSecond();
-        thenAccept();
+       // thenAccept();
+        System.out.println("主线程"+Thread.currentThread().getName());
+        CompletableFuture<String> result=thenApply2();
+        System.out.println(result.get());
     }
 
     /**
@@ -91,6 +94,34 @@ public class CompletableFutureTest {
 
         long result = future.get();
         System.out.println(result);
+    }
+    public static CompletableFuture<String> thenApply2(){
+        CompletableFuture<String> future=CompletableFuture.supplyAsync(()-> {
+
+                 String id="aaaa";
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("第一次结果=========="+id);
+                 System.out.println("第一个当前线程"+Thread.currentThread().getName());
+                 return id;
+                }
+        ).thenApply(id->{
+            String bb="bbb";
+            String nestId=id+bb;
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("第二次结果=========="+nestId);
+            System.out.println("第二个当前线程"+Thread.currentThread().getName());
+            return nestId;
+        });
+        return future;
+
     }
     /**
      * handle 方法
