@@ -36,6 +36,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> imple
 
         sysRoleMapper.batchUpdate(params1);
 
+        Long[] jobIds = new Long[10];
+        int status=1;
+
+        Map<String,Object> map1 =new HashMap<>();
+        map1.put("list",jobIds);
+        map1.put("status",status);
+        sysRoleMapper.updateBatch(map1);
+
         return null;
     }
 }

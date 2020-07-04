@@ -30,4 +30,20 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
     IPage<RespSmartAppApply> myApply(Page page,Map<String,Object> params);
 
     boolean batchUpdate(@Param("params") Map<String,Object> params);
+
+    int updateBatch(Map<String, Object> map1);
+
+    int maxMenuId(@Param("parentId") long parentId);
+
+ /**
+  * 查询映射明城是否存在
+  */
+    boolean selectMapperName(@Param("randomString") String randomString);
+ /**
+  * 查询服务下相应状态的总和
+  * serviceId 能力id
+  * status 响应状态
+  * isEqual 状态的使用条件 true为= ；false为！=
+  */
+  Integer queryStatusSumByServiceId(@Param("serviceId") Long serviceId, @Param("status") String status,@Param("isEqual") boolean isEqual);
 }

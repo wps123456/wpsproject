@@ -153,6 +153,12 @@
             <if test="param2.endTime1=null and param2.endTime!=''">
                 and apply.apply_time <![CDATA[<=]]> #{param2.endTime}
             </if>
+            <if test="param2.startTime!=null and  param2.startTime!=''">
+                and apply.opet_time &gt;=#{param2.startTime}
+            </if>
+            <if test="param2.endTime !=null and param2.endTime !=''">
+                and apply.sper_time &lt;= #{param2.endTime}
+            </if>
         </where>
 
     </select>
@@ -169,7 +175,62 @@
           </foreach>
 
         )
+    </update>
+    <!-- 批量更新状态-->
+    <update id="updateBatch">
+        update schedule_job set status=#{status} where job_id in
+        <foreach item="jobId" collection="list" open="(" close=")" separator=",">
+            #{jobId}
+        </foreach>
 
     </update>
+
+    <select id="maxMenuId" parameterType="Long" resultType="int">
+        select  IFNULL (MAX(menu_id),0) from palt_help_doc_menu
+        <where>
+            <if test="parentId !=null and parentId!=''">
+                parent_id= #{parentId}
+            </if>
+
+        </where>
+    </select>
+<select id="selectMapperName" resultType="java.long.Boolean">
+    select CASE
+    when count (1)>0 then 'true'
+    else 'false' end
+    from edu_api_info api
+    where api.mapper_name=#{randomString}
+
+</select>
+
+    <select id="queryStatusSumByServiceId" resultType="Integer">
+        select
+        coalesce (sum(count),0)
+        from api_log_status
+        <where>
+            <if test="serviceId !=null and serviceId !=''">
+                and service_id=#{serviceId}
+
+            </if>
+            <if test="status!=null and status!=''">
+                and
+                <choose>
+                    <when test="isEqual">
+                        response_status=#{status}
+                    </when>
+                    <otherwise>
+                        response_status=#{status}
+                    </otherwise>
+
+                </choose>
+            </if>
+
+        </where>
+
+
+
+    </select>
+
+
 
 </mapper>
