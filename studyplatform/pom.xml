@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <quartz.verison>2.3.0</quartz.verison>
     </properties>
 
     <dependencies>
@@ -143,6 +144,17 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <!--quartz配置，用于执行定时任务-->
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.verison}</version>
         </dependency>
 
     </dependencies>
