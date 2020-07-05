@@ -221,16 +221,94 @@
                     <otherwise>
                         response_status=#{status}
                     </otherwise>
-
                 </choose>
             </if>
-
         </where>
-
-
+    </select>
+    <!-- coalesce(1,2,3) 返回1，返回最近的非空值
+          coalesce(null,1) 返回1
+     -->
+<select id="selectCountByDate" resultType="Integer">
+    select coalesce(sum(als.count),0) from api_log_status als
+    left join ability_base bss on bss.id=als.serviceId
+    where
+    als.time between #{yesterday} and #{today}
+    and als.service_id=#{serviceId}
+    and bss.is_deleted=0
+    and bss.ability_status=2
+    and (bss.ability_type =1 or bss.ability_type=2)
+</select>
+    <resultMap id="BaseResultMap" type="com.wps.studyplatform.sqlcollect.entity.APIAlarmInfoModel">
+        <id column="id" property="id"/>
+        <result column="api_registered_count" property="apiRegisteredCount"/>
+        <result column="registered_percentage" property="registeredPercentage"/>
+        <result column="examine_status" property="examineStatus"/>
+        <result column="alarm_time" property="alarmTime"/>
+    </resultMap>
+    <sql id="BaseResult">
+        id,api_registered_count,registered_percentage,alarm_time,examine_status
+    </sql>
+    <select id="findAlarmDetails" resultMap="BaseResultMap">
+     select
+     <include refid="BaseResult"/>
+     from public.api_alarm_info
+     order by alarm_time desc
+     limit #{pagaSize} OFFSET #{offset}
 
     </select>
+    <insert id="insert">
+        insert into public.hys_api_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id !=''">
+                id,
+            </if>
+            <if test="apiId!=null">
+                api_id,
+            </if>
+            <if test="hysId!=null">
+                hys_id,
+            </if>
+            <if test="groupKey!=null">
+                group_key
+            </if>
 
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id !=''">
+                #{id},
+            </if>
+            <if test="apiId!=null">
+                #{api_id},
+            </if>
+            <if test="hysId!=null">
+                #{hys_id},
+            </if>
+            <if test="groupKey!=null">
+                #{group_key}
+            </if>
+        </trim>
+    </insert>
+    <update id="update">
+        update public.hys_api_info
+        <set>
+            api_id=#{apiId},
+            hys_id=#{hysId},
+            group_key=#{groupKey}
+        </set>
+        where id=#{id}
 
+    </update>
+
+    <update id="batchDeleteByIds">
+        update public.api_info
+        <set>
+            is_delete=true
+        </set>
+        where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+    </update>
 
 </mapper>

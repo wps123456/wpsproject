@@ -3,12 +3,11 @@ package com.wps.studyplatform.sqlcollect.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wps.studyplatform.sqlcollect.entity.RespSmartAppApply;
-import com.wps.studyplatform.sqlcollect.entity.SysRole;
-import com.wps.studyplatform.sqlcollect.entity.UserPositionBean;
+import com.wps.studyplatform.sqlcollect.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -46,4 +45,20 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
   * isEqual 状态的使用条件 true为= ；false为！=
   */
   Integer queryStatusSumByServiceId(@Param("serviceId") Long serviceId, @Param("status") String status,@Param("isEqual") boolean isEqual);
+
+  int selectCountByDate(@Param("yesterday")Timestamp yesterday,
+                        @Param("today") Timestamp today,
+                        @Param("serviceId") Long serviceId);
+  List<APIAlarmInfoModel> findAlarmDetails(@Param("pageSize") int pageSize,@Param("offset") int offset);
+
+ /**
+  * api添加熔断模板
+  */
+  void insert (APIHysBean bean);
+ /**
+  * 更新熔断模板
+  */
+ void update (APIHysBean bean);
+
+ void batchDeleteByIds(List<String> apiIds);
 }
