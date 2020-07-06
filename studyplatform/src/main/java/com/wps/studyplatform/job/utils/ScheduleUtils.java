@@ -1,6 +1,7 @@
 package com.wps.studyplatform.job.utils;
 
 import com.wps.studyplatform.exception.base.BaseException;
+import com.wps.studyplatform.job.entity.ScheduleJobEntity;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,16 @@ public class ScheduleUtils {
             log.info(e.getMessage(),e);
             throw new BaseException("获取定时任务CronTrigger出现异常",e);
         }
+    }
+    /**
+     * 创建定时任务
+     */
+    public static void createScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJob){
+        try {
+            //构建job信息
+            JobDetail jobDetail=JobBuilder.newJob(ScheduleJ)
+        }
+
     }
 
 
