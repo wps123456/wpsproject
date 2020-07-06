@@ -45,6 +45,10 @@ public class ScheduleJobLogEntity implements Serializable {
      */
     private String error;
     /**
+     * 耗时
+     */
+    private Integer times;
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -104,6 +108,14 @@ public class ScheduleJobLogEntity implements Serializable {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
     }
 
     public Date getCreateTime() {

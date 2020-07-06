@@ -164,7 +164,6 @@
                     <groupId>com.zaxxer</groupId>
                     <artifactId>HikariCP-java6</artifactId>
                 </exclusion>
-
             </exclusions>
         </dependency>
 
