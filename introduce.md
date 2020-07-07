@@ -65,9 +65,9 @@ Zookeeper：安装目录下：cmd下：zkServer
 Kafka：安装目录下：cmd下：.\bin\windows\kafka-server-start.bat .\config\server.properties
 ```
 八：异步Async
-test  测试
+test  测试 
 
-
+test  测试 
 
 
 
