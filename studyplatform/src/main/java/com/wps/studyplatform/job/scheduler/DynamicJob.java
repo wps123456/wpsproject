@@ -109,7 +109,7 @@ public class DynamicJob {
 
         final StringBuilder sb=new StringBuilder();
         sb.append("{target=").append(target);
-        sb.append(", cronExperssion='").append(cronExpression).append('\'');
+        sb.append(", cronExpression='").append(cronExpression).append('\'');
         sb.append(", jobGroup='").append(jobGroup).append('\'');
         sb.append(", jobName='").append(jobName).append('\'');
         sb.append("}");

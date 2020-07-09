@@ -1,5 +1,7 @@
 package com.wps.studyplatform.job.config;
 
+import com.wps.studyplatform.job.scheduler.DynamicSchedulerFactory;
+import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.annotation.Value;
@@ -115,5 +117,9 @@ public class ConfigureQuartz {
         }
     }
     @Bean
-    public DynamicSc
+    public DynamicSchedulerFactory dynamicSchedulerFactory(Scheduler scheduler){
+        DynamicSchedulerFactory schedulerFactory=new DynamicSchedulerFactory();
+        schedulerFactory.setScheduler(scheduler);
+        return schedulerFactory;
+    }
 }
