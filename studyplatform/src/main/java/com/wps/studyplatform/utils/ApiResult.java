@@ -45,6 +45,10 @@ public class ApiResult<T> implements Serializable {
         return serialVersionUID;
     }
 
+    public static <T>ApiResult<T> success() {
+        return new ApiResult<T>(ApiResultConstant.SUCCESS_CODE,"message",null);
+    }
+
     public String getCode() {
         return code;
     }

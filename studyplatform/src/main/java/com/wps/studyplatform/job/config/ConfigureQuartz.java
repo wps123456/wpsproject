@@ -33,7 +33,7 @@ public class ConfigureQuartz {
     @Bean
     public JobFactory jobFactory(ApplicationContext applicationContext){
 
-        AutowiringSpringBeanJobFactory jobFactory=new AutowringSpringBeanJobFactory();
+        AutowiringSpringBeanJobFactory jobFactory=new AutowiringSpringBeanJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         return jobFactory;
     }
