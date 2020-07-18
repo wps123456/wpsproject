@@ -66,6 +66,11 @@ Kafka：安装目录下：cmd下：.\bin\windows\kafka-server-start.bat .\config
 ```
 八：异步Async
 CompletableFuture
+九:rabbitmq在windows下的问题
+问题：Error: unable to perform an operation on node 'rabbit@DESKTOP-8VB0JLG'. Please see diagnostics information and suggestions below.
+方案：将C:\Users\{用户名}\.erlang.cookie 复制到 C:\Windows\System32\config\systemprofile 目录。
+      重启rabbitMQ服务
+
 
 
 
