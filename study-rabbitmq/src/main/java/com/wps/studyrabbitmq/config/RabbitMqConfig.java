@@ -17,7 +17,7 @@ public class RabbitMqConfig {
     public Queue helloQueue() {
         return new Queue("hello");
     }
-
+/*
     @Bean
     public Queue userQueue() {
         return new Queue("user");
@@ -63,23 +63,23 @@ public class RabbitMqConfig {
         return new FanoutExchange("fanoutExchange");
     }
 
-    /**
+    *//**
      * 将队列topic.message与exchange绑定，binding_key为topic.message,就是完全匹配
      * @param queueMessage
      * @param exchange
      * @return
-     */
+     *//*
     @Bean
     Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) {
         return BindingBuilder.bind(queueMessage).to(exchange).with("topic.message");
     }
 
-    /**
+    *//**
      * 将队列topic.messages与exchange绑定，binding_key为topic.#,模糊匹配
      * @param queueMessage
      * @param exchange
      * @return
-     */
+     *//*
     @Bean
     Binding bindingExchangeMessages(Queue queueMessages, TopicExchange exchange) {
         return BindingBuilder.bind(queueMessages).to(exchange).with("topic.#");
@@ -98,6 +98,6 @@ public class RabbitMqConfig {
     @Bean
     Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(CMessage).to(fanoutExchange);
-    }
+    }*/
 
 }
