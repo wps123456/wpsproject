@@ -48,7 +48,8 @@ public class RabbitMqController {
 
         String context = "hello " + format.format(new Date());
         System.out.println("Sender : " + context);
-        this.amqpTemplate.convertAndSend("Hello", context);
+        this.amqpTemplate.convertAndSend("hello", context);
+        System.out.println("消息已经发送");
 
     }
 }

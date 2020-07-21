@@ -13,15 +13,14 @@ import org.springframework.stereotype.Component;
  * @Date 2020/7/1817:55
  */
 @Component
-@RabbitListener(queues="hello")
 public class MessageConsumer {
     private static final Logger log = LoggerFactory.getLogger(MessageConsumer.class);
 
     //监听器监听指定的Queue
-    @RabbitHandler
+    @RabbitListener(queues = "hello")
     public void process(String hello){
         log.info("Receiver:"+hello);
-        System.out.println("消息接受成功");
+        System.out.println("消息接受成功"+hello);
 
     }
 
