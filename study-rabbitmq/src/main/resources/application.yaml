@@ -5,8 +5,7 @@ spring:
   application:
     name: rabbitmq-demo
   rabbitmq:
-    host: 172.29.2.119
-    port: 15672
+    host: localhost
+    port: 5672
     username: guest
     password: guest
-
