@@ -20,7 +20,7 @@ public class MessageConsumer {
     @RabbitListener(queues = "hello")
     public void process(String hello){
         log.info("Receiver:"+hello);
-        System.out.println("消息接受成功"+hello);
+        System.out.println("==========消费者1============="+hello);
 
     }
 

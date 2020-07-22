@@ -17,6 +17,16 @@ public class RabbitMqConfig {
     public Queue helloQueue() {
         return new Queue("hello");
     }
+
+    @Bean
+    public DirectExchange directHelloExchange(){
+        return new DirectExchange("helloExchange");
+    }
+    @Bean
+    Binding bindingExchangeOrderDicQueue() {
+        return BindingBuilder.bind(helloQueue()).to(directHelloExchange()).with("orderRoutingKey");
+    }
+
 /*
     @Bean
     public Queue userQueue() {
