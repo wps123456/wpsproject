@@ -45,11 +45,18 @@ public class RabbitMqController {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @GetMapping("/send")
     public void sendMessage(){
-
         String context = "hello " + format.format(new Date());
         System.out.println("Sender : " + context);
         this.amqpTemplate.convertAndSend("hello", context);
         System.out.println("消息已经发送");
-
     }
+
+    @GetMapping("/exchangeQueue")
+    public void exchangeQueue(){
+        String context = "hello " + format.format(new Date());
+        System.out.println("Sender : " + context);
+        amqpTemplate.convertAndSend("fanoutExchange", "", context);
+    }
+
+
 }

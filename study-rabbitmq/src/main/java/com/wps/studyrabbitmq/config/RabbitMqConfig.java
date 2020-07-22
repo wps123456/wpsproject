@@ -19,12 +19,28 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public DirectExchange directHelloExchange(){
-        return new DirectExchange("helloExchange");
+    public Queue selectQueue(){
+        return new Queue("select");
     }
     @Bean
-    Binding bindingExchangeOrderDicQueue() {
-        return BindingBuilder.bind(helloQueue()).to(directHelloExchange()).with("orderRoutingKey");
+    public Queue deleteQueue(){
+        return new Queue("delete");
+    }
+
+    //声明交换机
+    @Bean
+    public FanoutExchange  directHelloExchange(){
+        return new FanoutExchange ("fanoutExchange");
+    }
+
+    //绑定交换机和队列
+    @Bean
+    public Binding bindingFanoutQueue1(Queue selectQueue, FanoutExchange directHelloExchange) {
+        return BindingBuilder.bind(selectQueue).to(directHelloExchange);
+    }
+    @Bean
+    public Binding bindingFanoutQueue2(Queue deleteQueue, FanoutExchange directHelloExchange) {
+        return BindingBuilder.bind(deleteQueue).to(directHelloExchange);
     }
 
 /*

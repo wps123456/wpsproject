@@ -17,7 +17,12 @@ public class MessageConsumerSecond {
     //监听器监听指定的Queue
     @RabbitListener(queues = "hello")
     public void process(String hello){
-        System.out.println("===============消费者2========"+hello);
+        System.out.println("===============消费者2  process========"+hello);
+
+    }
+    @RabbitListener(queues = "select")
+    public void process2(String hello){
+        System.out.println("===============消费者2  process2========"+hello);
 
     }
 }

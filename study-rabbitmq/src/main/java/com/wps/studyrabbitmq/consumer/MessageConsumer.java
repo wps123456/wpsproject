@@ -20,7 +20,13 @@ public class MessageConsumer {
     @RabbitListener(queues = "hello")
     public void process(String hello){
         log.info("Receiver:"+hello);
-        System.out.println("==========消费者1============="+hello);
+        System.out.println("==========消费者1  process============="+hello);
+
+    }
+    @RabbitListener(queues = "delete")
+    public void process2(String hello){
+        log.info("Receiver:"+hello);
+        System.out.println("==========消费者1  process2============="+hello);
 
     }
 
