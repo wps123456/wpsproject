@@ -51,11 +51,28 @@ public class RabbitMqController {
         System.out.println("消息已经发送");
     }
 
+    /**
+     *  发布订阅模式
+     */
     @GetMapping("/exchangeQueue")
     public void exchangeQueue(){
         String context = "hello " + format.format(new Date());
         System.out.println("Sender : " + context);
         amqpTemplate.convertAndSend("fanoutExchange", "", context);
+    }
+
+    /**
+     * Routing模式
+     * 一个交换机绑定多个队列，每个队列都设置routing key,一个队列可以包含多个routing key
+     */
+    @GetMapping("/exchangeQueueRouting")
+    public void exchangeQueueRouting(){
+        String context = "hello " + format.format(new Date());
+        System.out.println("Sender : " + context);
+        amqpTemplate.convertAndSend("fanoutExchange", "selectOne", context+"selectOne");
+        amqpTemplate.convertAndSend("fanoutExchange", "selectTwo", context+"selectTwo");
+        amqpTemplate.convertAndSend("fanoutExchange", "selectThree", context+"selectThree");
+
     }
 
 
