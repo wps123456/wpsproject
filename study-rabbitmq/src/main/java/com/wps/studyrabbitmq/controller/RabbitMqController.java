@@ -69,9 +69,9 @@ public class RabbitMqController {
     public void exchangeQueueRouting(){
         String context = "hello " + format.format(new Date());
         System.out.println("Sender : " + context);
-        amqpTemplate.convertAndSend("fanoutExchange", "selectOne", context+"selectOne");
-        amqpTemplate.convertAndSend("fanoutExchange", "selectTwo", context+"selectTwo");
-        amqpTemplate.convertAndSend("fanoutExchange", "selectThree", context+"selectThree");
+        amqpTemplate.convertAndSend("routingExchange", "selectOne", context+"selectOne");
+        amqpTemplate.convertAndSend("routingExchange", "selectTwo", context+"selectTwo");
+        amqpTemplate.convertAndSend("routingExchange", "selectThree", context+"selectThree");
 
     }
 
