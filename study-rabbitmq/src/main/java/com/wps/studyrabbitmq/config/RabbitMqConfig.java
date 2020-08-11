@@ -35,7 +35,23 @@ public class RabbitMqConfig {
         return new Queue("select2");
     }
 
+    @Bean
+    public Queue topicQueue1(){
+        return new Queue("topicQueue1");
+    }
+    @Bean
+    public Queue topicQueue2(){
+        return new Queue("topicQueue2");
+    }
 
+
+    /**
+     * 交换机类型三种
+     * Direct Exchange ：直连型交换机，根据消息携带的路由键将消息投递给对应队列。
+     * Fanout Exchange：这个交换机在接收到消息后，会直接转发到绑定到它上面的所有队列。
+     * Topic Exchange：主题交换机，这个交换机其实跟直连交换机流程差不多，但是它的特点就是在它的路由键和绑定键之间是有规则的。
+     * @return
+     */
 
     //声明交换机
     @Bean
@@ -45,6 +61,11 @@ public class RabbitMqConfig {
     @Bean
     public  DirectExchange routingExchange(){
         return new DirectExchange ("routingExchange");
+    }
+
+    @Bean
+    public TopicExchange topicExchange(){
+        return new TopicExchange("topicExchange");
     }
 
 
@@ -70,7 +91,16 @@ public class RabbitMqConfig {
     public Binding bindingDirectExchange3(Queue deleteQueue2, DirectExchange routingExchange) {
         return BindingBuilder.bind(deleteQueue2).to(routingExchange).with("selectThree");
     }
+    //topic 模式
 
+    @Bean
+    public Binding bindingTopicExchange1(Queue topicQueue1,TopicExchange topicExchange){
+        return BindingBuilder.bind(topicQueue1).to(topicExchange).with("topic.message");
+    }
+    @Bean
+    public Binding bindingTopicExchange2(Queue topicQueue2,TopicExchange topicExchange){
+        return BindingBuilder.bind(topicQueue2).to(topicExchange).with("topic.#");
+    }
 /*
     @Bean
     public Queue userQueue() {

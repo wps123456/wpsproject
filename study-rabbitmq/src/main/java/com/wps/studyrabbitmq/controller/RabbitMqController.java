@@ -74,6 +74,17 @@ public class RabbitMqController {
         amqpTemplate.convertAndSend("routingExchange", "selectThree", context+"selectThree");
 
     }
+    /**
+     * Topic模式
+     *一个交换机绑定多个队列，每个队列都设置topic，一个队列可以包含多个topic，通配符
+     * "topic.#"---可以匹配topic.one/topic.two
+     */
+     @GetMapping("/exchangeTopic")
+     public void exchangeTopic(){
+         amqpTemplate.convertAndSend("topicExchange","topic.test","topic模式");
+         amqpTemplate.convertAndSend("topicExchange","topic.message","topic模式");
+
+     }
 
 
 }
