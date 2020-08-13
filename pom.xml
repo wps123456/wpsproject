@@ -55,7 +55,7 @@
         <module>spring-security-oauth2</module>
         <module>springmvc_day01_01_start</module>
         <module>study-rabbitmq</module>
-
+        <module>study-redis</module>
     </modules>
 
 </project>
