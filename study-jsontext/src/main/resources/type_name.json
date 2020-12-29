@@ -1,0 +1,20 @@
+{
+  "type":"姓名",
+  "instance":[
+    {
+      "name":"张三",
+      "id":"1",
+      "enServiceName":"zhangsan"
+    },
+    {
+      "name":"李四",
+      "id":"2",
+      "enServiceName":"zhangsan"
+    },
+    {
+      "name":"王五",
+      "id":"3",
+      "enServiceName":"zhangsan"
+    }
+  ]
+}

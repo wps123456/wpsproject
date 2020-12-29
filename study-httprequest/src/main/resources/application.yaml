@@ -1,0 +1,7 @@
+server:
+  port: 8100
+jsontext:
+  json:
+    url: http://loaclhost:8011/json/getJson
+  name:
+    url: http://localhost:8011/json/getName
