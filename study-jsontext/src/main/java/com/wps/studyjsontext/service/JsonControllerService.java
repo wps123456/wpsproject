@@ -8,4 +8,6 @@ package com.wps.studyjsontext.service;
  */
 public interface JsonControllerService {
     String getJsonBody();
+
+    String getAmbariBody();
 }

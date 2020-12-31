@@ -5,3 +5,11 @@ jsontext:
     url: http://loaclhost:8011/json/getJson
   name:
     url: http://localhost:8011/json/getName
+  ambari:
+    url: http://localhost:8011/json/getAmbariJson
+
+
+ambari:
+  port: 28888
+  user: admin
+  password: admin@123

@@ -10,4 +10,6 @@ public interface HttpControllerService {
     String getStringText();
 
     String getResult();
+
+    String getHostInfo();
 }

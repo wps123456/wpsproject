@@ -2,6 +2,7 @@ package com.wps.studyhttprequest.http.service.Impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wps.studyhttprequest.http.config.RestAmbariClient;
 import com.wps.studyhttprequest.http.entity.PlatformEntity;
 import com.wps.studyhttprequest.http.entity.ServerEntity;
 import com.wps.studyhttprequest.http.service.HttpControllerService;
@@ -34,6 +35,11 @@ public class HttpControllerServiceImpl implements HttpControllerService {
     @Value("${jsontext.name.url}}")
     private String getNameUrl;
 
+    @Value("${jsontext.ambari.url}")
+    private String getAmbariUrl;
+
+    @Autowired
+    RestAmbariClient restAmbariClient;
     @Override
     public String getStringText() {
         String jsonString = restTemplate.getForObject(getJsonUrl,String.class);
@@ -51,5 +57,12 @@ public class HttpControllerServiceImpl implements HttpControllerService {
         HttpEntity<PlatformEntity> request = new HttpEntity<>(platformEntity,httpHeaders);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(getNameUrl,request,String.class);
         return responseEntity.getBody();
+    }
+
+    @Override
+    public String getHostInfo() {
+        String jsonString = restTemplate.getForObject(getAmbariUrl,String.class);
+        String hostName = restAmbariClient.getHostInfo("10.121.10","test001",jsonString,false);
+        return hostName;
     }
 }

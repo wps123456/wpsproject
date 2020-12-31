@@ -28,5 +28,10 @@ public class JsonController {
         String name = platformEntity.getName();
         return name;
     }
+    @GetMapping("/getAmbariJson")
+    public String getAmbariJson(){
+        String jsonString = jsonControllerService.getAmbariBody();
+        return jsonString;
+    }
 
 }

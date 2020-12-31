@@ -23,6 +23,13 @@ public class JsonControllerServiceImpl implements JsonControllerService {
         String jsonBody = getRegisterContent("type_name.json");
         return jsonBody;
     }
+
+    @Override
+    public String getAmbariBody() {
+        String jsonBody = getRegisterContent("host_info.json");
+        return jsonBody;
+    }
+
     public static String getRegisterContent(String fileName){
         String jsonStr = "";
         try{

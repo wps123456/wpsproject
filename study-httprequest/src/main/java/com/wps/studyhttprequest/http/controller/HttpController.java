@@ -35,4 +35,12 @@ public class HttpController {
         String result = httpControllerService.getResult();
         return result;
     }
+    /**
+     * Get请求，获取String类型，并转成JSON对象，并解析出需要的参数
+     */
+    @GetMapping("/getHostInfo")
+    public String getHostInfo(){
+        String result = httpControllerService.getHostInfo();
+        return result;
+    }
 }

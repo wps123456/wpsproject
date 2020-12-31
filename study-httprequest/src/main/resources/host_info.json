@@ -1,0 +1,23 @@
+{
+  "href":"http://10.121.11.2",
+  "items":[
+    {
+      "href":"http://10.121.22.2",
+      "Hosts":{
+        "cluster_name":"test001",
+        "host_name":"test00000000",
+        "host_state":"ON"
+      },
+      "host_components":[
+        {
+          "href":"http://10.121.22.2",
+          "HostRoles":{
+            "cluster_name":"test001",
+            "host_name":"test00000000",
+            "host_state":"ONwwwwww"
+          }
+        }
+      ]
+    }
+  ]
+}
