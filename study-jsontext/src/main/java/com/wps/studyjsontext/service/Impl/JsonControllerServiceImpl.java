@@ -1,5 +1,7 @@
 package com.wps.studyjsontext.service.Impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.wps.studyjsontext.service.JsonControllerService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -27,6 +29,8 @@ public class JsonControllerServiceImpl implements JsonControllerService {
     @Override
     public String getAmbariBody() {
         String jsonBody = getRegisterContent("host_info.json");
+        JSONObject jsonObject = JSONObject.parseObject(jsonBody);
+        String h = String.valueOf(jsonObject.getJSONObject("href"));
         return jsonBody;
     }
 
