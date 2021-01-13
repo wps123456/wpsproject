@@ -1,6 +1,8 @@
 package com.wps.studyhttprequest.http.controller;
 
 import com.wps.studyhttprequest.http.service.HttpControllerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/http")
 public class HttpController {
 
+    private static final Logger logger =LoggerFactory.getLogger(HttpController.class);
+
     @Autowired
     private HttpControllerService httpControllerService;
     /**
@@ -24,6 +28,9 @@ public class HttpController {
      */
     @GetMapping("/getName")
     public String getName(){
+        logger.info("测试info{}","ceshi ");
+        logger.error("错误日志");
+        logger.debug("调试日志");
         String text = httpControllerService.getStringText();
         return text;
     }
